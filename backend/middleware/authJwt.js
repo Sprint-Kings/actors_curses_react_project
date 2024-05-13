@@ -40,47 +40,42 @@ isAdmin = (req, res, next) => {
             }
 
             res.status(403).send({
-                message: "Require Admin Role!"
+                message: "Необходима роль администратора"
             });
             return;
         });
     });
 };
 
-isModerator = (req, res, next) => {
+isTeacher = (req, res, next) => {
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name === "moderator") {
+                if (roles[i].name === "teacher") {
                     next();
                     return;
                 }
             }
 
             res.status(403).send({
-                message: "Require Moderator Role!"
+                message: "Необходима роль модератора!"
             });
         });
     });
 };
 
-isModeratorOrAdmin = (req, res, next) => {
+isStudent = (req, res, next) => {
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name === "moderator") {
-                    next();
-                    return;
-                }
-
-                if (roles[i].name === "admin") {
+                if (roles[i].name === "student") {
                     next();
                     return;
                 }
             }
 
             res.status(403).send({
-                message: "Require Moderator or Admin Role!"
+                message: "Необходимо купить курс!"
             });
         });
     });
@@ -89,8 +84,8 @@ isModeratorOrAdmin = (req, res, next) => {
 const authJwt = {
     verifyToken: verifyToken,
     isAdmin: isAdmin,
-    isModerator: isModerator,
-    isModeratorOrAdmin: isModeratorOrAdmin
+    isTeacher: isTeacher,
+    isStudent: isStudent
 };
 module.exports = authJwt;
 

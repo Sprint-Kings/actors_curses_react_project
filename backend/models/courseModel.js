@@ -9,8 +9,14 @@ module.exports = (sequelize, Sequelize) => {
         description: {
             type: Sequelize.STRING
         },
+        duration: {
+          type: Sequelize.INTEGER
+        },
         price: {
             type: Sequelize.INTEGER
+        },
+        preview: {
+            type: Sequelize.STRING
         }
     });
 

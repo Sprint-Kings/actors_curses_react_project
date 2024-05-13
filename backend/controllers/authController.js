@@ -12,12 +12,18 @@ const PDFDocument = require("pdfkit");
 
 exports.signup = (req, res) => {
     // Save User to Database
+    accept = false
+    if (req.body.accepted_oferta == "true") {
+        accept = true
+    }
+
     User.create({
         first_name: req.body.firstName,
         last_name: req.body.lastName,
         username: req.body.username,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
+        password: bcrypt.hashSync(req.body.password, 8),
+        accepted_oferta: accept
     })
         .then(user => {
             if (req.body.roles) {
@@ -131,40 +137,3 @@ exports.refreshToken = async (req, res) => {
         return res.status(500).send({ message: err });
     }
 };
-
-exports.sendEmail = async (req, res) => {
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        secure: true,
-        auth: {
-            user: 'glow.courses24@gmail.com',
-            pass: 'wfrf oqnl xuwr qgez'
-        }
-    });
-
-    const doc = new PDFDocument();
-
-    doc
-        .fontSize(25)
-        .text('Some text with an embedded font!', 100, 100);
-
-    doc.end();
-
-    let mailOptions = {
-        from: 'glow.courses24@gmail.com',
-        to: 'sprintkings2016@gmail.com',
-        subject: 'Hello, World!',
-        text: 'This is a plain text email',
-        attachments: [
-            {
-                filename: 'test.pdf',
-                content: doc
-            }
-        ]
-    };
-    // Send email
-    let info = await transporter.sendMail(mailOptions);
-
-    console.log('Message sent: %s', info.messageId);
-
-}

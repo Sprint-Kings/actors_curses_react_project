@@ -1,18 +1,23 @@
 const express = require('express');
 
 const cors = require('cors');
-
+const fileUpload = require('express-fileupload');
 const app = express();
 
 var corsOptions = {
     origin: "http://localhost:8081"
 };
 
+app.use(fileUpload({
+    createParentPath: true
+}));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 require('./routes/authRoutes')(app);
+require('./routes/courseRoutes')(app);
+require('./routes/userRoutes')(app);
 
 const db = require("./models");
 const Role = db.role;
@@ -31,12 +36,17 @@ function initial() {
 
     Role.create({
         id: 2,
-        name: "moderator"
+        name: "teacher"
     });
 
     Role.create({
         id: 3,
         name: "admin"
+    });
+
+    Role.create({
+        id: 4,
+        name: "student"
     });
 }
 

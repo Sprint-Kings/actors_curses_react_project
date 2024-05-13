@@ -5,6 +5,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         video: {
             type: Sequelize.STRING
+        },
+        opened: {
+            type: Sequelize.BOOLEAN
         }
     });
 

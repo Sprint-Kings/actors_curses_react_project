@@ -1,5 +1,5 @@
 module.exports = {
     secret: "courses-secret-key",
-    jwtExpiration: 60,           // 1 hour
+    jwtExpiration: 600,           // 1 hour
     jwtRefreshExpiration: 1200
 };
