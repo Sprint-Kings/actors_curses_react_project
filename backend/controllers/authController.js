@@ -89,7 +89,8 @@ exports.signin = (req, res) => {
                     accessToken: token,
                     refreshToken: refreshToken,
                     roles: authorities,
-                    username: user.username
+                    username: user.username,
+                    id: user.id
                 });
             });
         })

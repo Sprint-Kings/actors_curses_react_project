@@ -17,7 +17,7 @@ module.exports = function(app) {
     );
 
     app.post(
-        "/api/user/buy",
+        "/api/user/:id/buy",
         [authJwt.verifyToken],
         controller.buyCourse
     );
@@ -41,7 +41,7 @@ module.exports = function(app) {
     );
 
     app.get(
-        "/api/user/task/all",
+        "/api/user/tasks/all",
         [authJwt.verifyToken, authJwt.isStudent],
         controller.getAllTaskAndLektion
     );
@@ -101,7 +101,7 @@ module.exports = function(app) {
     );
 
     app.post(
-        "/api/teacher/lektion/add",
+        "/api/teacher/lektion/delete",
         [authJwt.verifyToken, authJwt.isTeacher],
         controller.deleteLektion
     );
@@ -112,9 +112,15 @@ module.exports = function(app) {
     );
 
     app.post(
-        "/api/teacher/answer/add",
+        "/api/teacher/answer/:answerId/add",
         [authJwt.verifyToken, authJwt.isTeacher],
         controller.addBall
+    );
+
+    app.get(
+        "/api/teacher/task/all",
+        [authJwt.verifyToken, authJwt.isTeacher],
+        controller.getAllTaskAndLektionForTeacher
     );
 
     app.get("/api/download",

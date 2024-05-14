@@ -58,7 +58,7 @@ isTeacher = (req, res, next) => {
             }
 
             res.status(403).send({
-                message: "Необходима роль модератора!"
+                message: "Необходима роль преподавателя!"
             });
         });
     });
@@ -68,7 +68,7 @@ isStudent = (req, res, next) => {
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name === "student") {
+                if (roles[i].name === "student" || roles[i].name === "teacher") {
                     next();
                     return;
                 }

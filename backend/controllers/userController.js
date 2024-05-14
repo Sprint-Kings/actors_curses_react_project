@@ -44,7 +44,7 @@ exports.buyCourse = (req, res) => {
                 Enrollment.create({
                     enrollment_data: new Date(),
                     userId: req.userId,
-                    courseId: req.body.courseId
+                    courseId: req.params.id
                 })
                     .then(async () => {
                         return res.send({ message: "Вы успешно купили курс" });
@@ -125,16 +125,38 @@ exports.getLektion = (req, res) => {
 };
 
 exports.getAllTaskAndLektion = (req, res) => {
-    Lektion.findOne({
+    Enrollment.findOne({
         where: {
-            id: req.body.lektionId
+            userId: req.userId
         }
     })
-        .then(async (lektion) => {
-            if (!lektion) {
-                return res.status(404).send({ message: "Лекция не найдена" });
+        .then(async (enrollment) => {
+            if (!enrollment) {
+                return res.status(404).send({ message: "Курс не найден" });
             }
-            res.send(lektion);
+            Lektion.findAll({
+                where: {
+                    courseId: enrollment.courseId,
+                    opened: true
+                }
+            })
+                .then(async (lektion) => {
+                    Task.findAll({
+                        where: {
+                            courseId: enrollment.courseId,
+                            opened: true
+                        }
+                    })
+                        .then(async (task) => {
+                            res.send(lektion.concat(task));
+                        })
+                        .catch(err => {
+                            res.status(500).send({ message: err.message });
+                        });
+                })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -191,19 +213,29 @@ exports.deleteCourse = (req, res) => {
 };
 
 exports.addTask = (req, res) => {
-    opened = false
-    if (req.body.opened === 'true') {
-        opened = true
-    }
-    Task.create({
-        name: req.body.name,
-        description: req.body.description,
-        opened: opened,
-        courseId: Number(req.body.courseId),
-        min_ball: Number(req.body.min_ball)
+    Course.findOne({
+        where: {
+            teacherId: req.body.teacherId
+        }
     })
-        .then(async () => {
-            return res.send({ message: "Задание создано" });
+        .then(async (course) => {
+            opened = false
+            if (req.body.opened === 'true') {
+                opened = true
+            }
+            Task.create({
+                name: req.body.name,
+                description: req.body.description,
+                opened: opened,
+                courseId: course.id,
+                min_ball: req.body.min_ball
+            })
+                .then(async () => {
+                    return res.send({ message: "Задание создано" });
+                })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -229,22 +261,33 @@ exports.deleteTask = (req, res) => {
 };
 
 exports.addLektion = (req, res) => {
-    opened = false
-    if (req.body.opened === 'true') {
-        opened = true
-    }
-    Lektion.create({
-        name: req.body.name,
-        video: req.body.video,
-        opened: opened,
-        courseId: Number(req.body.courseId)
+    Course.findOne({
+        where: {
+            teacherId: req.body.teacherId
+        }
     })
-        .then(async () => {
-            return res.send({ message: "Лекция создана" });
+        .then(async (course) => {
+            opened = false
+            if (req.body.opened === 'true') {
+                opened = true
+            }
+            Lektion.create({
+                name: req.body.name,
+                video: req.body.video,
+                opened: opened,
+                courseId: course.id
+            })
+                .then(async () => {
+                    return res.send({ message: "Лекция создана" });
+                })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
+
 };
 
 exports.deleteLektion = (req, res) => {
@@ -320,127 +363,37 @@ exports.addBall = (req, res) => {
         });
 };
 
-exports.deleteCart = (req, res) => {
-    User.findOne({
+exports.getAllTaskAndLektionForTeacher = (req, res) => {
+    Course.findOne({
         where: {
-            id: req.userId
+            teacherId: req.userId
         }
     })
-        .then(async (user) => {
-            if (!user) {
-                return res.status(404).send({ message: "Пользователь не найден" });
+        .then(async (course) => {
+            if (!course) {
+                return res.status(404).send({ message: "Курс не найден" });
             }
-            if (req.body.productId) {
-                Cart.findOne({
-                    where: {
-                        product_id: req.body.productId,
-                        userid: req.userId
-                    }
-                }).then(async (product) => {
-                    if (!product) {
-                        return res.status(404).send({ message: "Товар не найден" });
-                    } else {
-                        await product.destroy();
-                        res.send({ message: "Товар удален из корзины" });
-                    }
+            Lektion.findAll({
+                where: {
+                    courseId: course.id
+                }
+            })
+                .then(async (lektion) => {
+                    Task.findAll({
+                        where: {
+                            courseId: course.id
+                        }
+                    })
+                        .then(async (task) => {
+                            res.send(lektion.concat(task));
+                        })
+                        .catch(err => {
+                            res.status(500).send({ message: err.message });
+                        });
                 })
-            } else {
-                res.status(404).send({ message: "При удалении товара из корзины произошла ошибка" });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
-};
-
-exports.userOrders = (req, res) => {
-    User.findOne({
-        where: {
-            id: req.userId
-        }
-    })
-        .then(async (user) => {
-            if (!user) {
-                return res.status(404).send({ message: "Пользователь не найден" });
-            }
-            const orders = await user.getOrders()
-            res.status(200).send(orders);
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
-};
-
-exports.userOrder = (req, res) => {
-    User.findOne({
-        where: {
-            id: req.userId
-        }
-    })
-        .then(async (user) => {
-            if (!user) {
-                return res.status(404).send({ message: "Пользователь не найден" });
-            }
-
-            const order = await Orders.findOne({ where: { id: req.params.id } })
-            res.status(200).send(order);
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
-};
-
-
-
-exports.deleteOrder = (req, res) => {
-    User.findOne({
-        where: {
-            id: req.userId
-        }
-    })
-        .then(async (user) => {
-            if (!user) {
-                return res.status(404).send({ message: "Пользователь не найден" });
-            }
-            if (req.body.orderId) {
-                Orders.findOne({
-                    where: {
-                        id: req.body.orderId,
-                        userid: req.userId
-                    }
-                }).then(async (order) => {
-                    if (!order) {
-                        return res.status(404).send({ message: "Заказ не найден" });
-                    } else {
-                        await order.destroy();
-                        res.send({ message: "Заказ отменен" });
-                    }
-                })
-            } else {
-                res.status(404).send({ message: "При отмене заказа произошла ошибка" });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
-};
-exports.adminBoard = (req, res) => {
-    User.findOne({
-        where: {
-            id: req.userId
-        }
-    })
-        .then(async (user) => {
-            if (!user) {
-                return res.status(404).send({ message: "Пользователь не найден" });
-            }
-            res.status(200).send({
-                id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                username: user.username,
-                email: user.email
-            });
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
