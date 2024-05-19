@@ -215,7 +215,7 @@ exports.deleteCourse = (req, res) => {
 exports.addTask = (req, res) => {
     Course.findOne({
         where: {
-            teacherId: req.body.teacherId
+            teacherId: req.userId
         }
     })
         .then(async (course) => {
@@ -263,7 +263,7 @@ exports.deleteTask = (req, res) => {
 exports.addLektion = (req, res) => {
     Course.findOne({
         where: {
-            teacherId: req.body.teacherId
+            teacherId: req.userId
         }
     })
         .then(async (course) => {
