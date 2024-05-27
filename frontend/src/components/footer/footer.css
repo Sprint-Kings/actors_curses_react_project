@@ -1,0 +1,37 @@
+.container-footer {
+    background-color: #1E212C;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    padding: 5%;
+}
+
+.container-column {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    align-items: flex-start;
+    padding-right: 5%;
+}
+
+.container-column > h1 {
+    color: white;
+}
+
+.container-column > h2 {
+    color: white;
+}
+
+.container-column > p {
+    color: gray;
+}
+
+.container-column h3 {
+    color: gray;
+}
+
+.container-column > a {
+    text-decoration: none;
+}
+
+

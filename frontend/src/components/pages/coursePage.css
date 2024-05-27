@@ -1,0 +1,124 @@
+.container-course-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-course-page-title {
+    background-color: #CDBBEA;
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+    align-items: center;
+    height: 30vh;
+    width: 100%;
+    flex-direction: column;
+}
+
+.container-course-page-title > h3 {
+    font-weight: normal;
+    color: #6F2FF9;
+}
+
+.container-course-page-about-course {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    height: 35vh;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    align-self: center;
+}
+
+.container-course-page-about-course-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 50%;
+    justify-content: flex-start;
+}
+
+.container-course-page-about-course-text > p {
+    line-height: 1.5;
+}
+
+.container-course-page-about-course-information-card {
+    height: min-content;
+    padding: 5% 5% 5% 5%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -1px 4px 44px -9px rgba(34, 60, 80, 0.22);
+    justify-content: center;
+    align-items: flex-start;
+    width: 20%;
+}
+
+.container-course-page-about-course-information-card > h4 {
+    font-weight: normal;
+    margin: 0;
+}
+
+.container-course-page-about-course-information-card > h2 {
+    color: #6F2FF9;
+    margin-bottom: 15%;
+}
+
+.container-course-page-about-course-button {
+    width: 100%;
+    background-color: #6F2FF9;
+    color: white;
+    padding: 2% 4% 2% 4%;
+    border-color: #6F2FF9;
+    border-radius: 1rem;
+    font-size: inherit;
+    font-family: "Ubuntu Sans", sans-serif;
+    border-style: solid;
+    border-width: 0.1rem;
+}
+
+.container-course-page-about-course-button:active {
+    color: #6F2FF9;
+    background-color: white;
+}
+
+.container-course-page-about-teacher {
+    margin-bottom: 10%;
+    height: 45vh;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    align-self: center;
+}
+
+.container-course-page-about-teacher-image-container {
+    display: flex;
+    width: 40%;
+    align-items: center;
+}
+
+.container-course-page-about-teacher-image {
+    height: 100%;
+    display: inline;
+    width: 100%;
+    object-fit: cover;
+}
+
+.container-course-page-about-teacher-text {
+    padding: 0 0 5% 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+}
+
+.container-course-page-about-teacher-text > h3 {
+    margin: 0;
+}
+
+.container-course-page-about-teacher-text > h4 {
+    margin: 0 0 7% 0;
+}
+
+.container-course-page-about-teacher-text > p {
+   line-height: 1.5;
+}

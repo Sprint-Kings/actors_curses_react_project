@@ -17,6 +17,15 @@ module.exports = (sequelize, Sequelize) => {
         },
         preview: {
             type: Sequelize.STRING
+        },
+        specialization: {
+            type: Sequelize.STRING
+        },
+        teacher_description: {
+            type: Sequelize.STRING
+        },
+        teacher_image: {
+            type: Sequelize.STRING
         }
     });
 

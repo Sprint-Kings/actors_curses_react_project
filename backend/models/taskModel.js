@@ -11,6 +11,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         opened: {
             type: Sequelize.BOOLEAN
+        },
+        date_start: {
+            type: Sequelize.STRING
         }
     });
 

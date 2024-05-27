@@ -5,7 +5,7 @@ const fileUpload = require('express-fileupload');
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: ["http://localhost:3000", "http://192.168.56.1:3000"]
 };
 
 app.use(fileUpload({

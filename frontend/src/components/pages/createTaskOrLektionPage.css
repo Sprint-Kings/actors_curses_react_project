@@ -1,0 +1,4 @@
+.container-create-task-page {
+    display: flex;
+    flex-direction: column;
+}

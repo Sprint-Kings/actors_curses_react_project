@@ -1,0 +1,26 @@
+.container-lektion-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-lektion-page-title {
+    background-color: #CDBBEA;
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+    align-items: center;
+    height: 30vh;
+    width: 100%;
+    flex-direction: column;
+}
+
+.container-lektion-page-video-container {
+    margin-top: 5%;
+    margin-bottom: 10%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    align-self: center;
+    align-items: center;
+}

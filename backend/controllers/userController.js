@@ -40,22 +40,36 @@ exports.buyCourse = (req, res) => {
             if (!user) {
                 return res.status(404).send({ message: "Пользователь не найден" });
             }
-            user.setRoles([4]).then(() => {
-                Enrollment.create({
-                    enrollment_data: new Date(),
-                    userId: req.userId,
-                    courseId: req.params.id
-                })
-                    .then(async () => {
-                        return res.send({ message: "Вы успешно купили курс" });
-                    })
-                    .catch(err => {
-                        res.status(500).send({ message: err.message });
-                    });
+            Enrollment.findOne({
+                where: {
+                    userId: req.userId
+                }
             })
-            .catch(err => {
-                res.status(500).send({ message: err.message });
-            });
+                .then(async (enrollment) => {
+                    if (!enrollment) {
+                        user.setRoles([4]).then(() => {
+                            Enrollment.create({
+                                enrollment_data: new Date(),
+                                userId: req.userId,
+                                courseId: req.params.id
+                            })
+                                .then(async () => {
+                                    return res.send({ message: "Вы успешно купили курс" });
+                                })
+                                .catch(err => {
+                                    res.status(500).send({ message: err.message });
+                                });
+                        })
+                            .catch(err => {
+                                res.status(500).send({ message: err.message });
+                            });
+                    } else {
+                        return res.send({ message: "Вы уже купили курс" });
+                    }
+                })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -64,6 +78,7 @@ exports.buyCourse = (req, res) => {
 };
 
 exports.addAnswer = (req, res) => {
+    console.log(req.body)
     if (!req.files) {
         return res.status(404).send({ message: "Файл не загружен" });
     } else {
@@ -100,7 +115,48 @@ exports.getTask = (req, res) => {
             if (!task) {
                 return res.status(404).send({ message: "Задание не найдено" });
             }
-            res.send(task);
+            Answer.findOne({
+                where: {
+                    userId: req.userId,
+                    taskId: req.params.id
+                }
+            })
+                .then(async (answer) => {
+                    if (!answer) {
+                        task_full = {
+                            id: task.id,
+                            name: task.name,
+                            description: task.description,
+                            min_ball: task.min_ball,
+                            opened: task.opened,
+                            date_start: task.date_start,
+                            courseId: task.courseId,
+                            ball: "Не отправлено"
+                        }
+                        res.send(task_full);
+                    }
+                    else {
+                        if (answer.ball !== null) {
+                            ball_full = answer.ball
+                        } else {
+                            ball_full = 'Не оценено'
+                        }
+                        task_full = {
+                            id: task.id,
+                            name: task.name,
+                            description: task.description,
+                            min_ball: task.min_ball,
+                            opened: task.opened,
+                            date_start: task.date_start,
+                            courseId: task.courseId,
+                            ball: ball_full
+                        }
+                        res.send(task_full);
+                    }
+                })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -148,6 +204,7 @@ exports.getAllTaskAndLektion = (req, res) => {
                         }
                     })
                         .then(async (task) => {
+                            console.log(task)
                             res.send(lektion.concat(task));
                         })
                         .catch(err => {
@@ -184,7 +241,10 @@ exports.addCourse = (req, res) => {
         duration: Number(req.body.duration),
         price: Number(req.body.price),
         teacherId: Number(req.body.teacherId),
-        preview: req.body.preview
+        preview: req.body.preview,
+        specialization: req.body.specialization,
+        teacher_description: req.body.teacher_description,
+        teacher_image: req.body.teacher_image
     })
         .then(async () => {
             return res.send({ message: "Курс создан" });
@@ -228,7 +288,8 @@ exports.addTask = (req, res) => {
                 description: req.body.description,
                 opened: opened,
                 courseId: course.id,
-                min_ball: req.body.min_ball
+                min_ball: req.body.min_ball,
+                date_start: req.body.date_start
             })
                 .then(async () => {
                     return res.send({ message: "Задание создано" });
@@ -275,7 +336,8 @@ exports.addLektion = (req, res) => {
                 name: req.body.name,
                 video: req.body.video,
                 opened: opened,
-                courseId: course.id
+                courseId: course.id,
+                date_start: req.body.date_start
             })
                 .then(async () => {
                     return res.send({ message: "Лекция создана" });

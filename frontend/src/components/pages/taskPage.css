@@ -1,0 +1,115 @@
+.container-task-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-task-page-title {
+    background-color: #CDBBEA;
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+    align-items: center;
+    height: 30vh;
+    width: 100%;
+    flex-direction: column;
+}
+
+.container-task-page-about-task {
+    margin-top: 5%;
+    margin-bottom: 10%;
+    height: 35vh;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    align-self: center;
+    align-items: center;
+}
+
+.container-task-page-about-task-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 50%;
+    justify-content: flex-start;
+}
+
+.container-task-page-about-task-text > h1 {
+    margin-bottom: 5%;
+}
+
+.container-task-page-about-task-text > p {
+    line-height: 1.5;
+}
+
+.container-task-page-about-task-information-card {
+    height: min-content;
+    padding: 5% 5% 5% 5%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -1px 4px 44px -9px rgba(34, 60, 80, 0.22);
+    justify-content: center;
+    align-items: flex-start;
+    width: 20%;
+}
+
+.container-task-page-about-task-information-card > h4 {
+    font-weight: normal;
+    margin: 0;
+}
+
+.container-task-page-about-task-information-card > h2 {
+    color: #6F2FF9;
+    margin-bottom: 15%;
+}
+
+.container-task-page-about-task-button {
+    width: 100%;
+    background-color: #6F2FF9;
+    color: white;
+    padding: 2% 4% 2% 4%;
+    border-color: #6F2FF9;
+    border-radius: 1rem;
+    font-size: inherit;
+    font-family: "Ubuntu Sans", sans-serif;
+    border-style: solid;
+    border-width: 0.1rem;
+}
+
+.container-task-page-about-task-button:active {
+    color: #6F2FF9;
+    background-color: white;
+}
+
+.file {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.file-input {
+    width: 100%;
+    padding-bottom: 15%;
+    display: flex;
+    justify-content: center;
+}
+
+.file-input label {
+    width: 100%;
+    background-color: #6F2FF9;
+    color: white;
+    padding: 2% 4% 2% 4%;
+    border-color: #6F2FF9;
+    border-radius: 1rem;
+    font-size: inherit;
+    font-family: "Ubuntu Sans", sans-serif;
+    border-style: solid;
+    border-width: 0.1rem;
+    text-align: center;
+}
+
+.file-input label:active {
+    color: #6F2FF9;
+    background-color: white;
+}
+

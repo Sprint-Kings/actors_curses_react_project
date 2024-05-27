@@ -16,16 +16,34 @@ const useUserService = () => {
     }
 
     const buyCourse = async (courseId) => {
-        const res = await request(`${API_URL}user/user/${courseId}/buy`, authHeader(), 'POST');
+        const res = await request(`${API_URL}user/${courseId}/buy`, authHeader(), 'POST');
         return res.message;
     };
 
     const addAnswer = async (taskId, file) => {
-        const myData = new FormData();
-        myData.append("video", file)
-        const res = await request(`${API_URL}user/answer/${taskId}/submit`, authHeader(), 'POST', {
-            video: myData
-        });
+
+        // const formData = new FormData();
+        // formData.append("video", file);
+        //
+        // try {
+        //     // You can write the URL of your server or any other endpoint used for file upload
+        //     const result = await fetch(`${API_URL}user/answer/${taskId}/submit`, {
+        //         method: "POST",
+        //         headers: authHeader("file"),
+        //         body: formData,
+        //     });
+        //
+        //     const data = await result.json();
+        //
+        //     console.log(data);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+        const video = new FormData();
+
+        video.append("video", file)
+
+        const res = await request(`${API_URL}user/answer/${taskId}/submit`, authHeader("file"), 'POST', video, "file");
         return res.message;
     };
 
@@ -84,7 +102,7 @@ const useUserService = () => {
         return res;
     }
 
-    const addCourseAdmin = async (username, teacher, description, duration, price, teacherId, preview) => {
+    const addCourseAdmin = async (username, teacher, description, duration, price, teacherId, preview, specialization, teacherDescription, teacherImage) => {
         const res = await request(`${API_URL}admin/courses/submit`, authHeader(), 'POST', {
             name: username,
             teacher: teacher,
@@ -92,7 +110,10 @@ const useUserService = () => {
             duration: duration,
             price: price,
             teacherId: teacherId,
-            preview: preview
+            preview: preview,
+            specialization: specialization,
+            teacher_description: teacherDescription,
+            teacher_image: teacherImage
         });
 
         return res.message;
@@ -105,13 +126,13 @@ const useUserService = () => {
         return res.message;
     };
 
-    const addTaskTeacher = async (name, description, opened, courseId, min_ball) => {
+    const addTaskTeacher = async (name, description, opened, min_ball, date_start) => {
         const res = await request(`${API_URL}teacher/task/add`, authHeader(), 'POST', {
             name: name,
             description: description,
             opened: opened,
-            courseId: courseId,
-            min_ball: min_ball
+            min_ball: min_ball,
+            date_start: date_start
         });
 
         return res.message;
@@ -124,18 +145,18 @@ const useUserService = () => {
         return res.message;
     };
 
-    const addLektionTeacher = async (name, video, opened, courseId) => {
+    const addLektionTeacher = async (name, video, opened, date_start) => {
         const res = await request(`${API_URL}teacher/lektion/add`, authHeader(), 'POST', {
             name: name,
             video: video,
             opened: opened,
-            courseId: courseId
+            date_start: date_start
         });
 
         return res.message;
     };
 
-    const deleteLektionTeacher = async (taskId) => {
+    const deleteLektionTeacher = async (lektionId) => {
         const res = await request(`${API_URL}teacher/lektion/delete`, authHeader(), 'POST', {
             lektionId: lektionId
         });
