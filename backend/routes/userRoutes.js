@@ -95,6 +95,12 @@ module.exports = function(app) {
     );
 
     app.post(
+        "/api/teacher/task/:taskId/status",
+        [authJwt.verifyToken, authJwt.isTeacher],
+        controller.changeStatusTask
+    );
+
+    app.post(
         "/api/teacher/lektion/add",
         [authJwt.verifyToken, authJwt.isTeacher],
         controller.addLektion
@@ -104,6 +110,12 @@ module.exports = function(app) {
         "/api/teacher/lektion/delete",
         [authJwt.verifyToken, authJwt.isTeacher],
         controller.deleteLektion
+    );
+
+    app.post(
+        "/api/teacher/lektion/:lektionId/status",
+        [authJwt.verifyToken, authJwt.isTeacher],
+        controller.changeStatusLektion
     );
 
     app.get("/api/teacher/:taskId/answers",
@@ -123,8 +135,7 @@ module.exports = function(app) {
         controller.getAllTaskAndLektionForTeacher
     );
 
-    app.get("/api/download",
-        [authJwt.verifyToken],
+    app.get("/api/download/:file",
         controller.download
     );
 };

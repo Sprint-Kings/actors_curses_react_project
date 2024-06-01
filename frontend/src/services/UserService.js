@@ -145,6 +145,11 @@ const useUserService = () => {
         return res.message;
     };
 
+    const changeStatusTaskTeacher = async (taskId) => {
+        const res = await request(`${API_URL}teacher/task/${taskId}/status`, authHeader(), 'POST');
+        return res.message;
+    };
+
     const addLektionTeacher = async (name, video, opened, date_start) => {
         const res = await request(`${API_URL}teacher/lektion/add`, authHeader(), 'POST', {
             name: name,
@@ -163,6 +168,10 @@ const useUserService = () => {
         return res.message;
     };
 
+    const changeStatusLektionTeacher = async (lektionId) => {
+        const res = await request(`${API_URL}teacher/lektion/${lektionId}/status`, authHeader(), 'POST');
+        return res.message;
+    };
     const getAnswersTeacher = async (taskId) => {
         const res = await request(`${API_URL}teacher/${taskId}/answers`, authHeader());
         return res;
@@ -182,7 +191,9 @@ const useUserService = () => {
     }
 
     const download = async (filepath) => {
-        const res = await request(`${API_URL}download`, authHeader());
+        const res = await request(`${API_URL}download`, authHeader(), "POST", {
+            filePath: filepath
+        });
         return res;
     };
 
@@ -192,6 +203,6 @@ const useUserService = () => {
         buyCourse, addAnswer, getTask, getUserBoard, getLektion, getAllTaskAndLektion, getUsersAdmin, addUserAdmin,
         deleteUser, getCoursesAdmin, addCourseAdmin, deleteCourse, addTaskTeacher, deleteTaskTeacher,
         addLektionTeacher, deleteLektionTeacher, getAnswersTeacher, addBallTeacher, getAllTaskAndLektionForTeacher,
-        download};
+        download, changeStatusTaskTeacher, changeStatusLektionTeacher};
 }
 export default useUserService;

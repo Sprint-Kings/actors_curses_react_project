@@ -87,7 +87,7 @@ exports.addAnswer = (req, res) => {
         video.mv('./static/' + video.name)
             .then(async () => {
                 Answer.create({
-                    answer: './static/' + video.name,
+                    answer: './static/' + video.name + video.extension,
                     userId: req.userId,
                     taskId: req.params.id,
                     ball: null
@@ -163,6 +163,26 @@ exports.getTask = (req, res) => {
         });
 };
 
+exports.changeStatusTask = (req, res) => {
+    Task.findOne({
+        where: {
+            id: req.params.taskId
+        }
+    })
+        .then(async (task) => {
+            if (!task) {
+                return res.status(404).send({ message: "Задание не найдено" });
+            }
+            console.log(task.opened, !task.opened)
+            task.opened = !task.opened
+            task.save()
+                .then(res.send({ message: "Статус изменен" }))
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
 exports.getLektion = (req, res) => {
     Lektion.findOne({
         where: {
@@ -174,6 +194,25 @@ exports.getLektion = (req, res) => {
                 return res.status(404).send({ message: "Лекция не найдена" });
             }
             res.send(lektion);
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+exports.changeStatusLektion = (req, res) => {
+    Lektion.findOne({
+        where: {
+            id: req.params.lektionId
+        }
+    })
+        .then(async (lektion) => {
+            if (!lektion) {
+                return res.status(404).send({ message: "Лекция не найдена" });
+            }
+            lektion.opened = !lektion.opened
+            lektion.save()
+                .then(res.send({ message: "Статус изменен" }))
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -374,17 +413,18 @@ exports.getAnswers = (req, res) => {
     Answer.findAll({
         include: [{
             model: User,
-            attributes: ['first_name'],
+            attributes: ['first_name', "last_name"],
             required: true,
         }],
         where: {
-            id: req.params.taskId
+            taskId: req.params.taskId
         }
     })
         .then(async (answers) => {
             if (!answers) {
                 return res.status(404).send({ message: "Произошла ошибка" });
             }
+            console.log(answers)
             res.status(200).send(answers);
         })
         .catch(err => {
@@ -393,10 +433,10 @@ exports.getAnswers = (req, res) => {
 };
 
 exports.download = (req, res) => {
-    res.download(req.body.filePath, (err) => {
+    res.download('./static/' + req.params.file, (err) => {
         if (err) {
             if (!res.headersSent) {
-                res.status(404).send('Файл не найден');
+                res.status(404).send({message: 'Файл не найден'});
             } else {
                 readStream.destroy();
                 res.end();
