@@ -29,20 +29,20 @@ const AboutPage = () => {
                 </div>
                 <div className='container-about-us-slide-2-text-container'>
                     <div className='container-about-us-slide-2-label-container'>
-                        <h1>1200</h1>
+                        <h1>200</h1>
                         <p>студентов получили сертификат</p>
                     </div>
                     <div className='container-about-us-slide-2-label-container'>
-                        <h1>5</h1>
-                        <p>лет опыта</p>
+                        <h1>3</h1>
+                        <p>года опыта</p>
                     </div>
                     <div className='container-about-us-slide-2-label-container'>
-                        <h1>10</h1>
-                        <p>доступных курсов</p>
+                        <h1>3</h1>
+                        <p>доступных курса</p>
                     </div>
                     <div className='container-about-us-slide-2-label-container'>
-                        <h1>10</h1>
-                        <p>преподавателей</p>
+                        <h1>3</h1>
+                        <p>преподавателя</p>
                     </div>
                 </div>
             </div>

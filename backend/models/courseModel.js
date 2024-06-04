@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         description: {
-            type: Sequelize.STRING
+            type: Sequelize.TEXT
         },
         duration: {
           type: Sequelize.INTEGER
@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         teacher_description: {
-            type: Sequelize.STRING
+            type: Sequelize.TEXT
         },
         teacher_image: {
             type: Sequelize.STRING

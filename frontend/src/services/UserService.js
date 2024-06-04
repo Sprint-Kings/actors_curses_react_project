@@ -22,23 +22,6 @@ const useUserService = () => {
 
     const addAnswer = async (taskId, file) => {
 
-        // const formData = new FormData();
-        // formData.append("video", file);
-        //
-        // try {
-        //     // You can write the URL of your server or any other endpoint used for file upload
-        //     const result = await fetch(`${API_URL}user/answer/${taskId}/submit`, {
-        //         method: "POST",
-        //         headers: authHeader("file"),
-        //         body: formData,
-        //     });
-        //
-        //     const data = await result.json();
-        //
-        //     console.log(data);
-        // } catch (error) {
-        //     console.error(error);
-        // }
         const video = new FormData();
 
         video.append("video", file)
@@ -74,17 +57,29 @@ const useUserService = () => {
 
     const getUsersAdmin = async () => {
         const res = await request(`${API_URL}admin/users`, authHeader());
-        return res;
+        return res.users;
     }
 
-    const addUserAdmin = async (username, email, first_name, last_name, password, accepted_oferta) => {
+    const addUserAdmin = async (username, email, first_name, last_name, password, accepted_oferta, role) => {
         const res = await request(`${API_URL}admin/users/submit`, authHeader(), 'POST', {
             username: username,
             email: email,
             first_name: first_name,
             last_name: last_name,
             password: password,
-            accepted_oferta: accepted_oferta
+            accepted_oferta: accepted_oferta,
+            roles: [role]
+        });
+
+        return res.message;
+    };
+
+    const editUserAdmin = async (username, email, first_name, last_name) => {
+        const res = await request(`${API_URL}user/edit`, authHeader(), 'POST', {
+            username: username,
+            email: email,
+            first_name: first_name,
+            last_name: last_name,
         });
 
         return res.message;
@@ -102,9 +97,9 @@ const useUserService = () => {
         return res;
     }
 
-    const addCourseAdmin = async (username, teacher, description, duration, price, teacherId, preview, specialization, teacherDescription, teacherImage) => {
+    const addCourseAdmin = async (name, teacher, description, duration, price, teacherId, preview, specialization, teacherDescription, teacherImage) => {
         const res = await request(`${API_URL}admin/courses/submit`, authHeader(), 'POST', {
-            name: username,
+            name: name,
             teacher: teacher,
             description: description,
             duration: duration,
@@ -119,9 +114,9 @@ const useUserService = () => {
         return res.message;
     };
 
-    const deleteCourse = async (userId) => {
+    const deleteCourse = async (courseId) => {
         const res = await request(`${API_URL}admin/courses/delete`, authHeader(), 'POST', {
-            userId: userId,
+            courseId: courseId,
         });
         return res.message;
     };
@@ -197,12 +192,23 @@ const useUserService = () => {
         return res;
     };
 
+    const addReview = async (first_name, last_name, review) => {
+        const res = await request(`${API_URL}review/add`, authHeader(), 'POST', {
+            first_name: first_name,
+            last_name: last_name,
+            review: review
+        });
+
+        return res.message;
+    };
+
+
     return {
         loading, request, error,
         clearError, refreshToken,
         buyCourse, addAnswer, getTask, getUserBoard, getLektion, getAllTaskAndLektion, getUsersAdmin, addUserAdmin,
         deleteUser, getCoursesAdmin, addCourseAdmin, deleteCourse, addTaskTeacher, deleteTaskTeacher,
         addLektionTeacher, deleteLektionTeacher, getAnswersTeacher, addBallTeacher, getAllTaskAndLektionForTeacher,
-        download, changeStatusTaskTeacher, changeStatusLektionTeacher};
+        download, changeStatusTaskTeacher, changeStatusLektionTeacher, editUserAdmin, addReview};
 }
 export default useUserService;

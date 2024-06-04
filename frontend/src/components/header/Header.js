@@ -39,7 +39,7 @@ function Header() {
             <div className='container-header'>
                 <div className='logo'>
                     <Link to={'/'} style={{ textDecoration: 'none'}}>
-                        <h2>Glow</h2>
+                        <h2>Glo<span style={{color: "#ECE9E9"}}>w</span></h2>
                     </Link>
                 </div>
 

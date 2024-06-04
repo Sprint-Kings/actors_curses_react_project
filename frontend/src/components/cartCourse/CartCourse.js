@@ -6,7 +6,7 @@ const CartCourse = ({course}) => {
     return (
         <Link className='container-cart' to={`/${course.id}`}>
 
-                <img src={why} className='container-image'/>
+                <img src={course.preview} className='container-image'/>
                 <div className='container-text'>
                     <h2>{course.name}</h2>
                     <h4>Цена: <span style={{color: "#FF4242"}}>{course.price}</span> ₽ | Длительность: {course.duration} дней</h4>

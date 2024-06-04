@@ -5,7 +5,7 @@ var bcrypt = require("bcryptjs");
 const Op = db.Sequelize.Op;
 
 const { user: User, role: Role, enrollment: Enrollment, task: Task, course: Course, lektion: Lektion,
-    refreshToken: RefreshToken, answer: Answer, cart: Cart, orders: Orders } = db;
+    refreshToken: RefreshToken, answer: Answer, review: Review} = db;
 
 exports.userBoard = (req, res) => {
     User.findOne({
@@ -265,7 +265,7 @@ exports.courses = (req, res) => {
             if (!courses) {
                 return res.status(404).send({ message: "Произошла ошибка" });
             }
-            res.status(200).send({courses})
+            res.status(200).send(courses)
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -277,9 +277,9 @@ exports.addCourse = (req, res) => {
         name: req.body.name,
         teacher: req.body.teacher,
         description: req.body.description,
-        duration: Number(req.body.duration),
-        price: Number(req.body.price),
-        teacherId: Number(req.body.teacherId),
+        duration: req.body.duration,
+        price: req.body.price,
+        teacherId: req.body.teacherId,
         preview: req.body.preview,
         specialization: req.body.specialization,
         teacher_description: req.body.teacher_description,
@@ -502,8 +502,36 @@ exports.getAllTaskAndLektionForTeacher = (req, res) => {
         });
 };
 
+exports.editUser = (req, res) => {
+    User.findOne({
+        where: {
+            id: req.userId
+        }
+    })
+        .then(async (user) => {
+            if (!user) {
+                return res.status(404).send({ message: "Пользователь не найден" });
+            }
+            user.first_name = req.body.first_name
+            user.last_name = req.body.last_name
+            user.username = req.body.username
+            user.email = req.body.email
+            user.save()
+                .then(res.send({ message: "Данные обновлены" }))
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
 exports.users = (req, res) => {
-    User.findAll()
+    User.findAll({
+        include: [{
+            model: Role,
+            attributes: ['name'],
+            required: true,
+        }]
+    })
         .then(async (users) => {
             if (!users) {
                 return res.status(404).send({ message: "Произошла ошибка" });
@@ -531,31 +559,27 @@ exports.addUser = (req, res) => {
                     .then(async (user) => {
                         if (!user) {
                             User.create({
-                                first_name: req.body.firstName,
-                                last_name: req.body.lastName,
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name,
                                 username: req.body.username,
                                 email: req.body.email,
-                                password: bcrypt.hashSync(req.body.password, 8)
+                                password: bcrypt.hashSync(req.body.password, 8),
+                                accepted_oferta: req.body.accepted_oferta
                             })
                                 .then(user => {
-                                    if (req.body.roles) {
-                                        Role.findAll({
-                                            where: {
-                                                name: {
-                                                    [Op.or]: req.body.roles
-                                                }
+                                    Role.findAll({
+                                        where: {
+                                            name: {
+                                                [Op.or]: req.body.roles
                                             }
-                                        }).then(roles => {
-                                            user.setRoles(roles).then(() => {
-                                                res.send({ message: "Пользователь добавлен" });
-                                            });
+                                        }
+                                    }).then(roles => {
+                                        console.log(roles)
+                                        user.setRoles(roles).then(() => {
+                                            res.send({ message: "Пользователь добавлен" });
                                         });
-                                    } else {
-                                        // user role = 1
-                                        user.setRoles([1]).then(() => {
-                                            res.send({ message: "Пользователь добавлен с ролью user" });
-                                        });
-                                    }
+                                    });
+
                                 })
                         } else {
                             res.status(404).send({ message: 'Пользователь с такой почтой уже существует'});
@@ -583,6 +607,20 @@ exports.deleteUser = (req, res) => {
                 await user.destroy();
                 res.send({ message: "Пользователь удален успешно" });
             }
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+exports.addReview = (req, res) => {
+    Review.create({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        review: req.body.review
+    })
+        .then(async () => {
+            return res.send({ message: "Отзыв добавлен" });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

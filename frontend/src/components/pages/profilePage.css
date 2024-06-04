@@ -1,0 +1,32 @@
+.container-profile-page {
+    display: flex;
+    flex-direction: row;
+    margin-top: 12vh;
+    width: 100%;
+}
+
+.container-profile-page-column-1 > h1 {
+    text-align: center;
+}
+
+.container-profile-page-column-1 {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin: 5% 0 5% 0;
+    flex-direction: column;
+}
+
+.container-profile-page-user {
+    padding: 5%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 40%;
+    align-self: center;
+    box-shadow: -1px 4px 44px -9px rgba(34, 60, 80, 0.22);
+}
+
+.container-profile-page-user h3 {
+    font-weight: normal;
+}

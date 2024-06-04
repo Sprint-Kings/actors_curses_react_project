@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 
 import './coursePage.css';
 
-import teacher from '../../img/teacher.jpg';
+import teacherImg from '../../img/teacher.jpg';
 
 import useCourseService from "../../services/CourseService";
 import useUserService from "../../services/UserService";
@@ -27,7 +27,7 @@ const CoursePage = () => {
         const user = AuthService.getCurrentUser();
         if (user) {
             const roles = localStorage.getItem("roles")
-            setTeacher(roles.includes("ROLE_TEACHER"))
+            setTeacher(roles.includes("ROLE_TEACHER") || roles.includes("ROLE_ADMIN"))
         }
         clearError();
         updateCourse()
@@ -94,13 +94,13 @@ const CoursePage = () => {
         </div>
         <div className='container-course-page-about-teacher'>
             <div className='container-course-page-about-teacher-image-container'>
-                <img src={course.teacher} className='container-course-page-about-teacher-image'/>
+                <img src={course.teacher_image} className='container-course-page-about-teacher-image'/>
             </div>
             <div className='container-course-page-about-teacher-text'>
                 <h3>Преподаватель</h3>
                 <h1>{course.teacher}</h1>
                 <h4>{course.specialization}</h4>
-                <p>{course.teacherDescription}</p>
+                <p>{course.teacher_description}</p>
             </div>
         </div>
     </div> : null;

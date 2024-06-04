@@ -29,6 +29,7 @@ db.enrollment = require("../models/enrollmentModel.js")(sequelize, Sequelize);
 db.lektion = require("../models/lektionModel.js")(sequelize, Sequelize);
 db.payment = require("../models/paymentModel.js")(sequelize, Sequelize);
 db.task = require("../models/taskModel.js")(sequelize, Sequelize);
+db.review = require("../models/reviewModel.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
     through: "user_roles",

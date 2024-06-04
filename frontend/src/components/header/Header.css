@@ -20,6 +20,7 @@
     align-items: center;
     height: 100%;
     padding-right: 3%;
+    font-family: 'Ubuntu Sans',  sans-serif;
 }
 
 .navigation {
@@ -43,7 +44,7 @@
 }
 
 .navigation button:hover {
-    color: #F8BC48;
+    color: white;
 }
 
 .navigation button:active {

@@ -67,14 +67,14 @@ const MainPage = () => {
                     </div>
                 </div>
                 <div className='container-slide-1-small-row'>
-                    <h1 style={{marginLeft: "6%"}}>1200</h1>
+                    <h1 style={{marginLeft: "6%"}}>200</h1>
                     <p>студентов получили сертификат</p>
                     <span className='circle'></span>
-                    <h1>10</h1>
-                    <p>доступных курсов</p>
+                    <h1>3</h1>
+                    <p>доступных курса</p>
                     <span className='circle'></span>
-                    <h1>10</h1>
-                    <p>преподавателей</p>
+                    <h1>3</h1>
+                    <p>преподавателя</p>
                 </div>
             </div>
             <div className='container-slide-2'>
@@ -86,45 +86,27 @@ const MainPage = () => {
                     <h1>Почему Glow?</h1>
                     <div className='container-slide-2-label-container'>
                         <img src={check}></img>
-                        <p>A fermedentum in morbi
-                            pretium aliquam
-                            adipiscing donec
-                            tempus.</p>
+                        <p>Профессиональные преподаватели</p>
                     </div>
                     <div className='container-slide-2-label-container'>
                         <img src={check}></img>
-                        <p>A fermedentum in morbi
-                            pretium aliquam
-                            adipiscing donec
-                            tempus.</p>
+                        <p>Современный подход к обучению</p>
                     </div>
                     <div className='container-slide-2-label-container'>
                         <img src={check}></img>
-                        <p>A fermedentum in morbi
-                            pretium aliquam
-                            adipiscing donec
-                            tempus.</p>
+                        <p>Возможность будущего трудоустройства</p>
                     </div>
                     <div className='container-slide-2-label-container'>
                         <img src={check}></img>
-                        <p>A fermedentum in morbi
-                            pretium aliquam
-                            adipiscing donec
-                            tempus.</p>
+                        <p>Разделение обучения на лекции и практики</p>
                     </div>
                     <div className='container-slide-2-label-container'>
                         <img src={check}></img>
-                        <p>A fermedentum in morbi
-                            pretium aliquam
-                            adipiscing donec
-                            tempus.</p>
+                        <p>Постоянный контакт с преподавателем</p>
                     </div>
                     <div className='container-slide-2-label-container'>
                         <img src={check}></img>
-                        <p>A fermedentum in morbi
-                            pretium aliquam
-                            adipiscing donec
-                            tempus.</p>
+                        <p>Аккредитованность международными организациями</p>
                     </div>
                 </div>
             </div>

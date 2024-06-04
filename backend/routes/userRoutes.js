@@ -17,6 +17,12 @@ module.exports = function(app) {
     );
 
     app.post(
+        "/api/user/edit",
+        [authJwt.verifyToken],
+        controller.editUser
+    );
+
+    app.post(
         "/api/user/:id/buy",
         [authJwt.verifyToken],
         controller.buyCourse
@@ -137,5 +143,9 @@ module.exports = function(app) {
 
     app.get("/api/download/:file",
         controller.download
+    );
+
+    app.post("/api/review/add",
+        controller.addReview
     );
 };

@@ -69,12 +69,20 @@ export const useHttp = () => {
                     return []
                 }
 
+                if (data.message === 'Необходима роль администратора') {
+                    return []
+                }
+
                 if (data.message === 'Курс не найден') {
                     return []
                 }
                 if (data.message === 'Unauthorized! Access Token was expired!') {
                     return []
                 }
+
+                // if (data.message === 'Пользователь с такой почтой уже существует') {
+                //     return []
+                // }
                 throw new Error(data.message)
             }
 
