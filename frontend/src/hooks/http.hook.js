@@ -80,9 +80,6 @@ export const useHttp = () => {
                     return []
                 }
 
-                // if (data.message === 'Пользователь с такой почтой уже существует') {
-                //     return []
-                // }
                 throw new Error(data.message)
             }
 
