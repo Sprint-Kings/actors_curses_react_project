@@ -87,7 +87,7 @@ exports.addAnswer = (req, res) => {
         video.mv('./static/' + video.name)
             .then(async () => {
                 Answer.create({
-                    answer: './static/' + video.name + video.extension,
+                    answer: video.name,
                     userId: req.userId,
                     taskId: req.params.id,
                     ball: null

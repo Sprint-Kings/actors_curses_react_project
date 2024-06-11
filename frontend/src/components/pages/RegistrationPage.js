@@ -193,7 +193,7 @@ const RegistrationPage = () => {
 
                         }
                         <label htmlFor="rules">Соглашение об оферте</label>
-                        <p style={{color: '#dc3545'}}>{formik.errors.rules && formik.touched.rules
+                        <p style={{color: '#dc3545', marginLeft: "1%"}}>{formik.errors.rules && formik.touched.rules
                             ? formik.errors.rules
                             : null}</p>
                     </div>
